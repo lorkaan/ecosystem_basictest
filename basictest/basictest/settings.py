@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 from foundations.ecosystem_foundations.utils.read_env import EnvironVarLoader
 
