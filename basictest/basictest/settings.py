@@ -99,6 +99,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'djangorestframework',
+    'pghistory',
     'foundations.ecosystem_foundations.base',
     'foundations.ecosystem_foundations.automation',
     'foundations.ecosystem_foundations.globalparams',
