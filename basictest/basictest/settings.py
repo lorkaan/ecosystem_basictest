@@ -37,6 +37,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'djangorestframework',
+    'foundations.ecosystem_foundations.base',
+    'foundations.ecosystem_foundations.automation',
+    'foundations.ecosystem_foundations.globalparams',
+    'foundations.ecosystem_foundations.iam',
+    'foundations.ecosystem_foundations.labels',
+    'foundations.ecosystem_foundations.storedquery',
+    'foundations.ecosystem_foundations.users',
+    'foundations.ecosystem_foundations.watchdog',
+    'ecosystem_alerts.alerts',
+    'ecosystem_schedule.schedule',
 ]
 
 MIDDLEWARE = [

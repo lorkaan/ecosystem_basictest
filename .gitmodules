@@ -1,0 +1,9 @@
+[submodule "foundations"]
+	path = basictest/foundations
+	url = git@github.com:lorkaan/foundations.git
+[submodule "ecosystem_schedule"]
+	path = basictest/ecosystem_schedule
+	url = git@github.com:lorkaan/ecosystem_schedule.git
+[submodule "ecosystem_alerts"]
+	path = basictest/ecosystem_alerts
+	url = git@github.com:lorkaan/ecosystem_alerts.git
