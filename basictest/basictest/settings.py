@@ -12,9 +12,30 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 
+from foundations.ecosystem_foundations.utils.read_env import EnvironVarLoader
+
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+envloader = EnvironVarLoader()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+TEST_FLAG = envloader.get("TEST_FLAG", "1").lower() in ("1", "true", "yes")
+
+if TEST_FLAG:
+    CELERY_TASK_ALWAYS_EAGER = True
+    CELERY_TASK_EAGER_PROPAGATES = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'http')
+else:
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = True
+
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
+
+
+
+REDIS_URL = envloader.get("REDIS_URL", "redis://redis:6379/1")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
@@ -25,7 +46,47 @@ SECRET_KEY = 'django-insecure-h_+om6uw0xq_j*$$3_jj9^dwhem77v!p)necl3wjyps^o(!f5z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+SESSION_COOKIE_HTTPONLY = True
+CSRF_COOKIE_HTTPONLY = False
+
+
+
+AUTH_USER_MODEL = "users.User"
+
+CORS_ALLOW_CREDENTIALS = True
+
+if TEST_FLAG:
+
+    ALLOWED_HOSTS = [
+        "127.0.0.1",
+        "localhost",
+        "django"
+    ]
+
+    CORS_ALLOWED_ORIGINS = [
+        "http://localhost:5173",
+    ]
+
+    CSRF_TRUSTED_ORIGINS = [
+        "http://localhost:5173",
+        "http://127.0.0.1:5173"
+    ]
+else:
+
+    ALLOWED_HOSTS = [
+        "127.0.0.1",
+        "localhost"
+    ]
+
+    CORS_ALLOWED_ORIGINS = [
+        "https://127.0.0.1",
+        "https://localhost"
+    ]
+
+    CSRF_TRUSTED_ORIGINS = [
+        "https://nginx.kyc.internal",
+        "https://127.0.0.1"
+    ]
 
 
 # Application definition
@@ -83,12 +144,26 @@ WSGI_APPLICATION = 'basictest.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if TEST_FLAG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            #'ENGINE': 'django.db.backends.sqlite3',
+            #'NAME': BASE_DIR / 'db.sqlite3'
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': envloader.get('DATABASE_NAME', defaultVal='KYCcontroller'),
+            'USER': envloader.get('DATABASE_USER', defaultVal='KYCuser'),
+            'PASSWORD': envloader.get('DATABASE_PASSWORD', defaultVal='KYCus3r'),
+            'HOST': envloader.get('DB_HOST', defaultVal='db'),
+            'PORT': envloader.get('DB_PORT', defaultVal='5432')
+        }
+    }
 
 
 # Password validation
@@ -125,4 +200,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+MEDIA_ROOT = "/app/media"
+MEDIA_URL = "/media/"
