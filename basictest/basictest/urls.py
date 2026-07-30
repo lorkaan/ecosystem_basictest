@@ -26,15 +26,15 @@ urlpatterns = [
     path('health/', health),
     path(
         "api/users/",
-        include("ecosystem_foundations.users.urls")
+        include("foundations.ecosystem_foundations.users.urls")
     ),
     path(
         "api/watchdog/",
-        include("ecosystem_foundations.watchdog.urls")
+        include("foundations.ecosystem_foundations.watchdog.urls")
     ),
     path(
         "api/automation/",
-        include("ecosystem_foundations.automation.urls")
+        include("foundations.ecosystem_foundations.automation.urls")
     ),
     path(
         "api/queries/",
@@ -42,15 +42,15 @@ urlpatterns = [
     ),
     path(
         "api/labels/",
-        include("ecosystem_foundations.labels.urls")
+        include("foundations.ecosystem_foundations.labels.urls")
     ),
     path(
         "api/iam/",
-        include("ecosystem_foundations.iam.urls")
+        include("foundations.ecosystem_foundations.iam.urls")
     ),
     path(
         "api/global/",
-        include("ecosystem_foundations.globalparams.urls")
+        include("foundations.ecosystem_foundations.globalparams.urls")
     ),
     path(
         "api/alerts/",
