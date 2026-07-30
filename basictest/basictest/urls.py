@@ -38,7 +38,7 @@ urlpatterns = [
     ),
     path(
         "api/queries/",
-        include("ecosystem_foundations.storedquery.urls")
+        include("foundations.ecosystem_foundations.storedquery.urls")
     ),
     path(
         "api/labels/",
