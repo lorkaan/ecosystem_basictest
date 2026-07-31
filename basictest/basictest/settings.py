@@ -26,7 +26,7 @@ TEST_FLAG = envloader.get("TEST_FLAG", "1").lower() in ("1", "true", "yes")
 if TEST_FLAG:
     CELERY_TASK_ALWAYS_EAGER = True
     CELERY_TASK_EAGER_PROPAGATES = True
-    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'http')
+    #SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'http')
 else:
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     SECURE_SSL_REDIRECT = True
@@ -147,26 +147,19 @@ WSGI_APPLICATION = 'basictest.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-if TEST_FLAG:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
+
+DATABASES = {
+    'default': {
+        #'ENGINE': 'django.db.backends.sqlite3',
+        #'NAME': BASE_DIR / 'db.sqlite3'
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': envloader.get('DATABASE_NAME', defaultVal='KYCcontroller'),
+        'USER': envloader.get('DATABASE_USER', defaultVal='KYCuser'),
+        'PASSWORD': envloader.get('DATABASE_PASSWORD', defaultVal='KYCus3r'),
+        'HOST': envloader.get('DB_HOST', defaultVal='db'),
+        'PORT': envloader.get('DB_PORT', defaultVal='5432')
     }
-else:
-    DATABASES = {
-        'default': {
-            #'ENGINE': 'django.db.backends.sqlite3',
-            #'NAME': BASE_DIR / 'db.sqlite3'
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': envloader.get('DATABASE_NAME', defaultVal='KYCcontroller'),
-            'USER': envloader.get('DATABASE_USER', defaultVal='KYCuser'),
-            'PASSWORD': envloader.get('DATABASE_PASSWORD', defaultVal='KYCus3r'),
-            'HOST': envloader.get('DB_HOST', defaultVal='db'),
-            'PORT': envloader.get('DB_PORT', defaultVal='5432')
-        }
-    }
+}
 
 
 # Password validation
