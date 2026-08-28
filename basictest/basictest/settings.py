@@ -149,19 +149,26 @@ WSGI_APPLICATION = 'basictest.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 
-DATABASES = {
-    'default': {
-        #'ENGINE': 'django.db.backends.sqlite3',
-        #'NAME': BASE_DIR / 'db.sqlite3'
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': envloader.get('DATABASE_NAME', defaultVal='KYCcontroller'),
-        'USER': envloader.get('DATABASE_USER', defaultVal='KYCuser'),
-        'PASSWORD': envloader.get('DATABASE_PASSWORD', defaultVal='KYCus3r'),
-        'HOST': envloader.get('DB_HOST', defaultVal='db'),
-        'PORT': envloader.get('DB_PORT', defaultVal='5432')
+if TEST_FLAG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
-
+else:
+    DATABASES = {
+        'default': {
+            #'ENGINE': 'django.db.backends.sqlite3',
+            #'NAME': BASE_DIR / 'db.sqlite3'
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': envloader.get('DATABASE_NAME', defaultVal='OrcaController'),
+            'USER': envloader.get('DATABASE_USER', defaultVal='OrcaUser'),
+            'PASSWORD': envloader.get('DATABASE_PASSWORD', defaultVal='0rc4us3r'),
+            'HOST': envloader.get('DB_HOST', defaultVal='db'),
+            'PORT': envloader.get('DB_PORT', defaultVal='5432')
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
