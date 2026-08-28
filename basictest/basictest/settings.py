@@ -105,6 +105,7 @@ INSTALLED_APPS = [
     'foundations.ecosystem_foundations.base',
     'foundations.ecosystem_foundations.automation',
     'foundations.ecosystem_foundations.globalparams',
+    'foundations.ecosystem_foundations.dynamicforms',
     'foundations.ecosystem_foundations.iam',
     'foundations.ecosystem_foundations.labels',
     'foundations.ecosystem_foundations.storedquery',
