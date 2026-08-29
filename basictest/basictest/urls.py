@@ -41,6 +41,10 @@ urlpatterns = [
         include("foundations.ecosystem_foundations.storedquery.urls")
     ),
     path(
+        "api/forms/",
+        include("foundations.ecosystem_foundations.dynamicforms.urls")
+    ),
+    path(
         "api/labels/",
         include("foundations.ecosystem_foundations.labels.urls")
     ),
